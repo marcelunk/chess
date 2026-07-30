@@ -11,9 +11,20 @@ from chess.domain.square import Square
 
 def test_empty_game_state_is_empty():
     game_state = GameStateFactory.create_empty_game_state()
-    for v in game_state._piece_by_square.values():
-        assert v == None
-    # TODO check colors of squares
+    for p in game_state._piece_by_square.values():
+        assert p == None
+    _test_correct_color(game_state)
+
+def _test_correct_color(game_state):
+    squares = list(game_state._piece_by_square.keys())
+    for f in range(8):
+        for r in range(8):
+            i = squares.index(Square(f, r))
+            if (f + r) % 2 == 0:
+                assert squares[i].is_dark
+            else:
+                assert squares[i].is_light
+    
 
 def test_new_game_state_is_correct():
     game_state = GameStateFactory.create_initial_game_state()
