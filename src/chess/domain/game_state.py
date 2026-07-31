@@ -11,8 +11,9 @@ from chess.domain.square import Square
 
 class GameState:
 
-    def __init__(self, state):
+    def __init__(self, state, en_passant_square):
         self._piece_by_square = state
+        self.en_passant_square = en_passant_square
 
     def place_piece(self, piece: Piece, square: Square):
         self._piece_by_square[square] = piece
@@ -22,12 +23,17 @@ class GameState:
 
     def make_move(self, source: Square, target: Square) -> GameState:
         new_state = self._piece_by_square.copy()
-        players_piece = new_state[source]
-        new_state[target] = players_piece
+        en_passant_square = None
+        moving_piece = new_state[source]
+        new_state[target] = moving_piece
         new_state[source] = None
-        if players_piece.in_start_position:
-            players_piece.in_start_position = False
-        return GameState(new_state)
+        if moving_piece.in_start_position:
+            moving_piece.in_start_position = False
+            diff = source.rank - target.rank
+            moved_two_squares = (diff) % 2 == 0
+            if isinstance(moving_piece, Pawn) and moved_two_squares:
+                en_passant_square = Square(source.file, source.rank + (diff/2))
+        return GameState(new_state, en_passant_square)
 
     def __str__(self):
         squares = list(self._piece_by_square.keys())
@@ -53,13 +59,13 @@ class GameStateFactory:
     @staticmethod
     def create_empty_game_state() -> GameState:
         piece_by_square = GameStateFactory._init_empty_board()
-        return GameState(piece_by_square)
+        return GameState(piece_by_square, None)
 
     @staticmethod
     def create_initial_game_state() -> GameState:
         piece_by_square = GameStateFactory._init_empty_board()
         GameStateFactory._init_pieces(piece_by_square)
-        return GameState(piece_by_square)
+        return GameState(piece_by_square, None)
 
     @staticmethod
     def _init_empty_board():

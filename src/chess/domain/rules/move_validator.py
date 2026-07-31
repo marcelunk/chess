@@ -38,6 +38,10 @@ class MoveValidator:
         for pattern in piece.move_patterns:
             vector = pattern.direction
             max_distance = pattern.max_distance
+
+            if isinstance(piece, Pawn) and piece.in_start_position:
+                max_distance = 2
+
             for i in range(1, max_distance + 1):
                 diff_file = i * vector[0]
                 diff_rank = i * vector[1]
@@ -57,31 +61,39 @@ class MoveValidator:
         return legal_moves
 
     @staticmethod
-    def _get_pawn_edge_cases(source, game_state, piece, color):
+    def _get_pawn_edge_cases(source, game_state, pawn, color):
         file = source.file
         rank = source.rank
         legal_moves = set()
 
-        if piece.in_start_position:
-            legal_moves.add(Square(file, rank + 2))
+        right_diagonal = Square(file + 1, rank + 1)
+        if MoveValidator._pawn_can_hit(game_state, color, right_diagonal):
+            legal_moves.add(right_diagonal)
 
-        s_1 = Square(file + 1, rank + 1)
-        if MoveValidator._is_inside_board(s_1):
-            x = game_state.get_piece(s_1)
-            if x != None and x.color != color:
-                legal_moves.add(s_1)
+        left_diagonal = Square(file - 1, rank + 1)
+        if MoveValidator._pawn_can_hit(game_state, color, left_diagonal):
+            legal_moves.add(left_diagonal)
 
-        s_2 = Square(file - 1, rank + 1)
-        if MoveValidator._is_inside_board(s_2):
-            y = game_state.get_piece(s_2)
-            if y != None and y.color != color:
-                legal_moves.add(s_2)
 
-        # TODO add en passant
+        en_passant_square = game_state.en_passant_square
+        if MoveValidator._en_passant_is_allowed(en_passant_square, source):
+            legal_moves.add(en_passant_square)
 
         # TODO add change piece
 
         return legal_moves
+
+    @staticmethod
+    def _pawn_can_hit(game_state, color, square):
+        if not MoveValidator._is_inside_board(square):
+            return False
+        x = game_state.get_piece(square)
+        return x != None and x.color != color
+
+    @staticmethod
+    def _en_passant_is_allowed(en_passant_square, source):
+        one_file_difference = (en_passant_square.file - source.file) % 1 == 0
+        return one_file_difference and en_passant_square.rank == source.rank
 
     @staticmethod
     def _is_inside_board(square):
