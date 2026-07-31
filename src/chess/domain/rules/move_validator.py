@@ -28,7 +28,7 @@ class MoveValidator:
         if isinstance(piece, Pawn):
             legal_moves = legal_moves.union(MoveValidator._get_pawn_edge_cases(source, game_state, piece, color))
 
-        # TODO edge cases like rochade etc
+        # TODO add rochade
 
         return legal_moves
 
@@ -76,6 +76,10 @@ class MoveValidator:
             y = game_state.get_piece(s_2)
             if y != None and y.color != color:
                 legal_moves.add(s_2)
+
+        # TODO add en passant
+
+        # TODO add change piece
 
         return legal_moves
 
