@@ -1,3 +1,4 @@
+from chess.domain.color import Color
 from chess.domain.game_state import GameState
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.square import Square
@@ -6,12 +7,12 @@ from chess.domain.square import Square
 class MoveValidator:
 
     @staticmethod
-    def validate_move(source: Square, target: Square, game_state: GameState) -> bool:
+    def validate_move(source: Square, target: Square, game_state: GameState, turn: Color) -> bool:
         if not MoveValidator._is_inside_board(target):
             return False
 
         piece = game_state.get_piece(source)
-        if piece == None:
+        if piece == None or piece.color != turn:
             return False
 
         legal_moves = MoveValidator._get_legal_moves(source, game_state, piece)

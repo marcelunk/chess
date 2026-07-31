@@ -22,11 +22,11 @@ class GameState:
 
     def make_move(self, source: Square, target: Square) -> GameState:
         new_state = self._piece_by_square.copy()
-        piece = new_state[source]
-        new_state[target] = piece
+        players_piece = new_state[source]
+        new_state[target] = players_piece
         new_state[source] = None
-        if piece.in_start_position:
-            piece.in_start_position = False
+        if players_piece.in_start_position:
+            players_piece.in_start_position = False
         return GameState(new_state)
 
     def __str__(self):
