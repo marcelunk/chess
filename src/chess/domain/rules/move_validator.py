@@ -21,19 +21,19 @@ class MoveValidator:
     @staticmethod
     def _get_legal_moves(source, game_state, piece):
         legal_moves = set()
-        color = piece.color
 
-        legal_moves = legal_moves.union(MoveValidator._get_possible_moves(source.file, source.rank, game_state, piece, color))
+        legal_moves = legal_moves.union(MoveValidator._get_possible_moves(source.file, source.rank, game_state, piece))
 
         if isinstance(piece, Pawn):
-            legal_moves = legal_moves.union(MoveValidator._get_pawn_edge_cases(source, game_state, piece, color))
+            legal_moves = legal_moves.union(MoveValidator._get_pawn_edge_cases(source, game_state, piece))
 
         # TODO add rochade
 
         return legal_moves
 
     @staticmethod
-    def _get_possible_moves(file, rank, game_state, piece, color):
+    def _get_possible_moves(file, rank, game_state, piece):
+        color = piece.color
         legal_moves = set()
         for pattern in piece.move_patterns:
             vector = pattern.direction
@@ -61,18 +61,29 @@ class MoveValidator:
         return legal_moves
 
     @staticmethod
-    def _get_pawn_edge_cases(source, game_state, pawn, color):
+    def _get_pawn_edge_cases(source, game_state, pawn):
+        color = pawn.color
         file = source.file
         rank = source.rank
         legal_moves = set()
 
-        right_diagonal = Square(file + 1, rank + 1)
+        vector_left = None
+        vector_right = None
+        if color == Color.WHITE:
+            vector_left = (-1, 1)
+            vector_right = (1, 1)
+        else:
+            vector_left = (-1, -1)
+            vector_right = (1, -1)
+
+        left_diagonal = Square(file + vector_left[0], rank + vector_left[1])
+        if MoveValidator._pawn_can_hit(game_state, color, left_diagonal):
+            legal_moves.add(left_diagonal)
+
+        right_diagonal = Square(file + vector_right[0], rank + vector_right[1])
         if MoveValidator._pawn_can_hit(game_state, color, right_diagonal):
             legal_moves.add(right_diagonal)
 
-        left_diagonal = Square(file - 1, rank + 1)
-        if MoveValidator._pawn_can_hit(game_state, color, left_diagonal):
-            legal_moves.add(left_diagonal)
 
 
         en_passant_square = game_state.en_passant_square
@@ -92,6 +103,9 @@ class MoveValidator:
 
     @staticmethod
     def _en_passant_is_allowed(en_passant_square, source):
+        if en_passant_square == None:
+            return False
+        
         one_file_difference = (en_passant_square.file - source.file) % 1 == 0
         return one_file_difference and en_passant_square.rank == source.rank
 
