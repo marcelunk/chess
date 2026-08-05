@@ -12,7 +12,7 @@ class MoveValidator:
             return False
 
         piece = game_state.get_piece(source)
-        if piece == None or piece.color != turn:
+        if piece is None or piece.color is not turn:
             return False
 
         legal_moves = MoveValidator._get_legal_moves(source, game_state, piece)
@@ -50,9 +50,9 @@ class MoveValidator:
                     break
 
                 p = game_state.get_piece(square)
-                if p != None and p.color == color:
+                if p is not None and p.color is color:
                     break
-                elif p != None and p.color != color:
+                elif p is not None and p.color is not color:
                     legal_moves.add(square)
                     break
 
@@ -69,7 +69,7 @@ class MoveValidator:
 
         vector_left = None
         vector_right = None
-        if color == Color.WHITE:
+        if color is Color.WHITE:
             vector_left = (-1, 1)
             vector_right = (1, 1)
         else:
@@ -99,11 +99,11 @@ class MoveValidator:
         if not MoveValidator._is_inside_board(square):
             return False
         x = game_state.get_piece(square)
-        return x != None and x.color != color
+        return x is not None and x.color is not color
 
     @staticmethod
     def _en_passant_is_allowed(en_passant_square, source):
-        if en_passant_square == None:
+        if en_passant_square is None:
             return False
         
         one_file_difference = (en_passant_square.file - source.file) % 1 == 0

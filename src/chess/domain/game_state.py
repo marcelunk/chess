@@ -43,7 +43,7 @@ class GameState:
         for i in range(0, length):
             square = squares[i]
             board += str(square)
-            if self._piece_by_square[square] != None:
+            if self._piece_by_square[square] is not None:
                 board += f"({str(self._piece_by_square[square])})"
             board += ", "
 
@@ -119,7 +119,7 @@ class GameStateFactory:
 
     @staticmethod
     def _init_square(square: Square, piece: Piece, piece_by_square):
-        if piece_by_square[square] == None:
+        if piece_by_square[square] is None:
             piece_by_square[square] = piece
         else:
             raise RuntimeError("Field is already initialized")

@@ -27,11 +27,11 @@ class Game:
             # make move
             self.history.append(self._current_game_state)
             self._current_game_state = self._current_game_state.make_move(source_square, target_square)
-            if self._turn == Color.WHITE:
+            if self._turn is Color.WHITE:
                 self._turn = Color.BLACK
             else:
                 self._turn = Color.WHITE
 
     def _validate_input(self, input):
-        if self.input_pattern.match(input) == None:
+        if self.input_pattern.match(input) is None:
             raise RuntimeError(f"Bad input: {input}")

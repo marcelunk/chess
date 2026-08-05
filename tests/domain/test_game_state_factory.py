@@ -12,7 +12,7 @@ from chess.domain.square import Square
 def test_empty_game_state_is_empty():
     game_state = GameStateFactory.create_empty_game_state()
     for p in game_state._piece_by_square.values():
-        assert p == None
+        assert p is None
     _test_correct_color(game_state)
 
 def _test_correct_color(game_state):
@@ -37,75 +37,75 @@ def test_new_game_state_is_correct():
 def _test_white_pieces(game_state):
     white_rook_one = game_state.get_piece(Square(0,0))
     assert isinstance(white_rook_one, Rook)
-    assert white_rook_one.color == Color.WHITE
+    assert white_rook_one.color is Color.WHITE
 
     white_knight_one = game_state.get_piece(Square(1,0))
     assert isinstance(white_knight_one, Knight)
-    assert white_rook_one.color == Color.WHITE
+    assert white_rook_one.color is Color.WHITE
 
     white_bishop_one = game_state.get_piece(Square(2,0))
     assert isinstance(white_bishop_one, Bishop)
-    assert white_bishop_one.color == Color.WHITE
+    assert white_bishop_one.color is Color.WHITE
 
     white_queen = game_state.get_piece(Square(3,0))
     assert isinstance(white_queen, Queen)
-    assert white_queen.color == Color.WHITE
+    assert white_queen.color is Color.WHITE
 
     white_king = game_state.get_piece(Square(4,0))
     assert isinstance(white_king, King)
-    assert white_king.color == Color.WHITE
+    assert white_king.color is Color.WHITE
 
     white_rook_two = game_state.get_piece(Square(7,0))
     assert isinstance(white_rook_two, Rook)
-    assert white_rook_two.color == Color.WHITE
-    assert white_rook_one != white_rook_two
+    assert white_rook_two.color is Color.WHITE
+    assert white_rook_one is not white_rook_two
 
     white_knight_two = game_state.get_piece(Square(6,0))
     assert isinstance(white_knight_two, Knight)
-    assert white_knight_two.color == Color.WHITE
-    assert white_knight_one != white_knight_two
+    assert white_knight_two.color is Color.WHITE
+    assert white_knight_one is not white_knight_two
 
     white_bishop_two = game_state.get_piece(Square(5,0))
     assert isinstance(white_bishop_two, Bishop)
-    assert white_bishop_two.color == Color.WHITE
-    assert white_bishop_one != white_bishop_two
+    assert white_bishop_two.color is Color.WHITE
+    assert white_bishop_one is not white_bishop_two
 
 
 def _test_black_pieces(game_state):
     black_rook_one = game_state.get_piece(Square(0,7))
     assert isinstance(black_rook_one, Rook)
-    assert black_rook_one.color == Color.BLACK
+    assert black_rook_one.color is Color.BLACK
 
     black_knight_one = game_state.get_piece(Square(1,7))
     assert isinstance(black_knight_one, Knight)
-    assert black_rook_one.color == Color.BLACK
+    assert black_rook_one.color is Color.BLACK
 
     black_bishop_one = game_state.get_piece(Square(2,7))
     assert isinstance(black_bishop_one, Bishop)
-    assert black_bishop_one.color == Color.BLACK
+    assert black_bishop_one.color is Color.BLACK
 
     black_queen = game_state.get_piece(Square(3,7))
     assert isinstance(black_queen, Queen)
-    assert black_queen.color == Color.BLACK
+    assert black_queen.color is Color.BLACK
 
     black_king = game_state.get_piece(Square(4,7))
     assert isinstance(black_king, King)
-    assert black_king.color == Color.BLACK
+    assert black_king.color is Color.BLACK
 
     black_rook_two = game_state.get_piece(Square(7,7))
     assert isinstance(black_rook_two, Rook)
-    assert black_rook_two.color == Color.BLACK
-    assert black_rook_one != black_rook_two
+    assert black_rook_two.color is Color.BLACK
+    assert black_rook_one is not black_rook_two
 
     black_knight_two = game_state.get_piece(Square(6,7))
     assert isinstance(black_knight_two, Knight)
-    assert black_knight_two.color == Color.BLACK
-    assert black_knight_one != black_knight_two
+    assert black_knight_two.color is Color.BLACK
+    assert black_knight_one is not black_knight_two
 
     black_bishop_two = game_state.get_piece(Square(5,7))
     assert isinstance(black_bishop_two, Bishop)
-    assert black_bishop_two.color == Color.BLACK
-    assert black_bishop_one != black_bishop_two
+    assert black_bishop_two.color is Color.BLACK
+    assert black_bishop_one is not black_bishop_two
 
 def _test_white_pawns(game_state):
     pawns = set()
@@ -114,7 +114,7 @@ def _test_white_pawns(game_state):
 
     for p in pawns:
         assert isinstance(p, Pawn)
-        assert p.color == Color.WHITE
+        assert p.color is Color.WHITE
 
     assert len(pawns) == 8
 
@@ -125,7 +125,7 @@ def _test_black_pawns(game_state):
 
     for p in pawns:
         assert isinstance(p, Pawn)
-        assert p.color == Color.BLACK
+        assert p.color is Color.BLACK
 
     assert len(pawns) == 8
 
@@ -135,7 +135,7 @@ def _test_empty_squares(game_state):
     for f in range(8):
         for r in range(8):
             piece = game_state.get_piece(Square(f, r))
-            if piece == None:
+            if piece is None:
                 empty += 1
             else:
                 occupied += 1
