@@ -1,7 +1,7 @@
 import re
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
-from chess.domain.rules.move_validator import MoveValidator
+from chess.domain.rules.move_validator import validate_move
 from chess.domain.square import Square
 
 class Game:
@@ -22,7 +22,7 @@ class Game:
         # validate move
         source_square = Square.from_string(source)
         target_square = Square.from_string(target)
-        is_valid = MoveValidator.validate_move(source_square, target_square, self._current_game_state, self._turn)
+        is_valid = validate_move(source_square, target_square, self._current_game_state, self._turn)
         if is_valid:
             # make move
             self.history.append(self._current_game_state)
