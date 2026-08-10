@@ -8,7 +8,7 @@ from chess.domain.square import Square
 
 def test_knight_options_from_start_position():
     game_state = GameStateFactory.create_initial_game_state()
-    source = Square(1, 0)
+    source = Square.from_string('b1')
     knight = game_state.get_piece(source)
     moves = _get_legal_moves(source, game_state, knight)
     assert isinstance(knight, Knight)
@@ -20,7 +20,7 @@ def test_knight_options_from_start_position():
 def test_knight_options_empty_board():
     game_state = GameStateFactory.create_empty_game_state()
     knight = Knight(Color.WHITE)
-    source = Square(3, 3)
+    source = Square.from_string('d4')
     game_state.place_piece(knight, source)
     moves = _get_legal_moves(source, game_state, knight)
     assert len(moves) == 8

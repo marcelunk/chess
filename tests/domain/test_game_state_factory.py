@@ -13,9 +13,9 @@ def test_empty_game_state_is_empty():
     game_state = GameStateFactory.create_empty_game_state()
     for p in game_state._piece_by_square.values():
         assert p is None
-    _test_correct_color(game_state)
+    _test_color_of_squares(game_state)
 
-def _test_correct_color(game_state):
+def _test_color_of_squares(game_state):
     squares = list(game_state._piece_by_square.keys())
     for f in range(8):
         for r in range(8):
@@ -26,7 +26,7 @@ def _test_correct_color(game_state):
                 assert squares[i].is_light
     
 
-def test_new_game_state_is_correct():
+def test_new_game_state_is_valid():
     game_state = GameStateFactory.create_initial_game_state()
     _test_white_pieces(game_state)
     _test_white_pawns(game_state)
