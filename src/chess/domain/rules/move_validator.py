@@ -12,16 +12,15 @@ def validate_move(source: Square, target: Square, game_state: GameState, turn: C
     if piece is None or piece.color is not turn:
         return False
 
-    legal_moves = _get_legal_moves(source, game_state, piece)
-    return target in legal_moves
+    if isinstance(piece, Pawn):
+        return target in _get_pawn_legal_moves(source, game_state, piece)
+    else:
+        return target in _get_legal_moves(source, game_state, piece)
 
 def _get_legal_moves(source, game_state, piece):
     legal_moves = set()
 
     legal_moves = legal_moves.union(_get_possible_moves(source.file, source.rank, game_state, piece))
-
-    if isinstance(piece, Pawn):
-        legal_moves = legal_moves.union(_get_pawn_edge_cases(source, game_state, piece))
 
     # TODO add rochade
 
@@ -34,51 +33,63 @@ def _get_possible_moves(file, rank, game_state, piece):
         vector = pattern.direction
         max_distance = pattern.max_distance
 
-        if isinstance(piece, Pawn) and piece.in_start_position:
-            max_distance = 2
-
         for i in range(1, max_distance + 1):
             diff_file = i * vector[0]
             diff_rank = i * vector[1]
-            square = Square(file + diff_file, rank + diff_rank)
-            if not _is_inside_board(square):
+            target = Square(file + diff_file, rank + diff_rank)
+            if not _is_inside_board(target):
                 break
 
-            p = game_state.get_piece(square)
+            p = game_state.get_piece(target)
             if p is not None and p.color is color:
                 break
             elif p is not None and p.color is not color:
-                legal_moves.add(square)
+                legal_moves.add(target)
                 break
 
-            legal_moves.add(square)
+            legal_moves.add(target)
 
     return legal_moves
 
-def _get_pawn_edge_cases(source, game_state, pawn):
+def _get_pawn_legal_moves(source, game_state, pawn):
     color = pawn.color
     file = source.file
     rank = source.rank
     legal_moves = set()
 
-    vector_left = None
-    vector_right = None
-    if color is Color.WHITE:
-        vector_left = (-1, 1)
-        vector_right = (1, 1)
-    else:
-        vector_left = (-1, -1)
-        vector_right = (1, -1)
+    for pattern in pawn.move_patterns:
+        vector = pattern.direction
+        max_distance = pattern.max_distance
 
-    left_diagonal = Square(file + vector_left[0], rank + vector_left[1])
-    if _pawn_can_hit(game_state, color, left_diagonal):
-        legal_moves.add(left_diagonal)
+        if color is Color.BLACK:
+            vector = (vector[0], vector[1] * -1)
 
-    right_diagonal = Square(file + vector_right[0], rank + vector_right[1])
-    if _pawn_can_hit(game_state, color, right_diagonal):
-        legal_moves.add(right_diagonal)
+        if pawn.in_start_position:
+            max_distance = 2
 
+        for i in range(1, max_distance + 1):
+            diff_file = i * vector[0]
+            diff_rank = i * vector[1]
+            target = Square(file + diff_file, rank + diff_rank)
+            if not _is_inside_board(target):
+                break
 
+            p = game_state.get_piece(target)
+            if p is not None and p.color is color:
+                break
+            elif p is not None and p.color is not color:
+                legal_moves.add(target)
+                break
+
+            legal_moves.add(target)
+
+    hit_one = Square(file + 1, rank + vector[1])
+    if _is_inside_board(hit_one) and _pawn_can_hit(game_state, color, hit_one):
+        legal_moves.add(hit_one)
+
+    hit_two = Square(file - 1, rank + vector[1])
+    if _is_inside_board(hit_two) and _pawn_can_hit(game_state, color, hit_two):
+        legal_moves.add(hit_two)
 
     en_passant_square = game_state.en_passant_square
     if _en_passant_is_allowed(en_passant_square, source):
@@ -89,8 +100,6 @@ def _get_pawn_edge_cases(source, game_state, pawn):
     return legal_moves
 
 def _pawn_can_hit(game_state, color, square):
-    if not _is_inside_board(square):
-        return False
     x = game_state.get_piece(square)
     return x is not None and x.color is not color
 

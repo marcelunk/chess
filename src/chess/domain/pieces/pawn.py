@@ -1,6 +1,5 @@
 from chess.domain.move_pattern import MovePattern
 from chess.domain.piece import Piece
-from chess.domain.square import Square
 
 
 class Pawn(Piece):

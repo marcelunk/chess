@@ -9,11 +9,11 @@ class Game:
     def __init__(self):
         self.input_pattern = re.compile('^[a-h][1-8][a-h][1-8]$')
         self.history = list()
-        self._current_game_state = GameStateFactory.create_initial_game_state()
+        self.current_game_state = GameStateFactory.create_initial_game_state()
         self._turn = Color.WHITE
 
     def print_game_state(self):
-        print(str(self._current_game_state))
+        print(str(self.current_game_state))
 
     def make_move(self, input: str):
         self._validate_input(input)
@@ -22,11 +22,11 @@ class Game:
         # validate move
         source_square = Square.from_string(source)
         target_square = Square.from_string(target)
-        is_valid = validate_move(source_square, target_square, self._current_game_state, self._turn)
+        is_valid = validate_move(source_square, target_square, self.current_game_state, self._turn)
         if is_valid:
             # make move
-            self.history.append(self._current_game_state)
-            self._current_game_state = self._current_game_state.make_move(source_square, target_square)
+            self.history.append(self.current_game_state)
+            self.current_game_state = self.current_game_state.make_move(source_square, target_square)
             if self._turn is Color.WHITE:
                 self._turn = Color.BLACK
             else:
