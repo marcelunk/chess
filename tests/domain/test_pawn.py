@@ -24,8 +24,29 @@ def test_possible_moves_black_from_start_position():
     assert Square.from_string('b6') in moves
     assert Square.from_string('b5') in moves
 
-def test_en_passant():
-    pass
+def test_possible_hits_white_from_start_position():
+    game_state = GameStateFactory.create_empty_game_state()
+    pawn = Pawn(Color.WHITE)
+    position_pawn = 'c2'
+    game_state.place_piece(pawn, Square.from_string(position_pawn), True)
+    game_state.place_piece(Rook(Color.BLACK), Square.from_string('b3'), False)
+    moves = _get_pawn_legal_moves(Square.from_string(position_pawn), game_state, pawn)
+    assert len(moves) == 3
+    assert Square.from_string('b3') in moves
+    assert Square.from_string('c3') in moves
+    assert Square.from_string('c4') in moves
+
+def test_possible_hits_black_from_start_position():
+    game_state = GameStateFactory.create_empty_game_state()
+    pawn = Pawn(Color.BLACK)
+    position_pawn = 'c7'
+    game_state.place_piece(pawn, Square.from_string(position_pawn), True)
+    game_state.place_piece(Rook(Color.WHITE), Square.from_string('b6'), False)
+    moves = _get_pawn_legal_moves(Square.from_string(position_pawn), game_state, pawn)
+    assert len(moves) == 3
+    assert Square.from_string('b6') in moves
+    assert Square.from_string('c6') in moves
+    assert Square.from_string('c5') in moves
 
 def test_possible_hits_white():
     game_state = GameStateFactory.create_empty_game_state()
@@ -38,6 +59,16 @@ def test_possible_hits_white():
     assert Square.from_string('c5') in moves
 
 def test_possible_hits_black():
+    game_state = GameStateFactory.create_empty_game_state()
+    pawn = Pawn(Color.BLACK)
+    game_state.place_piece(pawn, Square.from_string('d4'), False)
+    game_state.place_piece(Rook(Color.WHITE), Square.from_string('c3'), False)
+    moves = _get_pawn_legal_moves(Square.from_string('d4'), game_state, pawn)
+    assert len(moves) == 2
+    assert Square.from_string('d3') in moves
+    assert Square.from_string('c3') in moves
+
+def test_en_passant():
     pass
 
 def test_swap():
