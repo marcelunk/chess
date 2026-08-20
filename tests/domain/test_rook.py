@@ -19,7 +19,7 @@ def test_rook_options_empty_board():
     game_state = GameStateFactory.create_empty_game_state()
     rook = Rook(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(rook, source)
+    game_state.place_piece(rook, source, False)
     moves = _get_legal_moves(source, game_state, rook)
     assert len(moves) == 14
     assert Square.from_string('a4') in moves
@@ -41,9 +41,9 @@ def test_rook_options_with_emenies():
     game_state = GameStateFactory.create_empty_game_state()
     rook = Rook(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(rook, source)
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('d7'))
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('d3'))
+    game_state.place_piece(rook, source, False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('d7'), False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('d3'), False)
     moves = _get_legal_moves(source, game_state, rook)
     assert len(moves) == 11
     assert Square.from_string('a4') in moves
@@ -62,9 +62,9 @@ def test_rook_options_with_allies():
     game_state = GameStateFactory.create_empty_game_state()
     rook = Rook(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(rook, source)
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('d7'))
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('d3'))
+    game_state.place_piece(rook, source, False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('d7'), False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('d3'), False)
     moves = _get_legal_moves(source, game_state, rook)
     assert len(moves) == 9
     assert Square.from_string('a4') in moves

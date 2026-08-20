@@ -19,7 +19,7 @@ def test_queen_options_empty_board():
     game_state = GameStateFactory.create_empty_game_state()
     queen = Queen(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(queen, source)
+    game_state.place_piece(queen, source, False)
     moves = _get_legal_moves(source, game_state, queen)
     assert len(moves) == 27
     assert Square.from_string('a4') in moves
@@ -55,9 +55,9 @@ def test_queen_options_with_emenies():
     game_state = GameStateFactory.create_empty_game_state()
     queen = Queen(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(queen, source)
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('b6'))
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('e4'))
+    game_state.place_piece(queen, source, False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('b6'), False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('e4'), False)
     moves = _get_legal_moves(source, game_state, queen)
     assert len(moves) == 23
     assert Square.from_string('a4') in moves
@@ -88,9 +88,9 @@ def test_queen_options_with_allies():
     game_state = GameStateFactory.create_empty_game_state()
     queen = Queen(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(queen, source)
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('b6'))
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('e4'))
+    game_state.place_piece(queen, source, False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('b6'), False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('e4'), False)
     moves = _get_legal_moves(source, game_state, queen)
     assert len(moves) == 21
     assert Square.from_string('a4') in moves

@@ -19,7 +19,7 @@ def test_king_options_empty_board():
     game_state = GameStateFactory.create_empty_game_state()
     king = King(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(king, source)
+    game_state.place_piece(king, source, False)
     moves = _get_legal_moves(source, game_state, king)
     assert len(moves) == 8
     assert Square.from_string('c4') in moves
@@ -36,9 +36,9 @@ def test_king_options_with_emenies():
     game_state = GameStateFactory.create_empty_game_state()
     king = King(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(king, source)
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('e5'))
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('d3'))
+    game_state.place_piece(king, source, False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('e5'), False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('d3'), False)
     moves = _get_legal_moves(source, game_state, king)
     assert len(moves) == 8
     assert Square.from_string('c4') in moves
@@ -54,9 +54,9 @@ def test_king_options_with_allies():
     game_state = GameStateFactory.create_empty_game_state()
     king = King(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(king, source)
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('e5'))
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('d3'))
+    game_state.place_piece(king, source, False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('e5'), False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('d3'), False)
     moves = _get_legal_moves(source, game_state, king)
     assert len(moves) == 6
     assert Square.from_string('c4') in moves

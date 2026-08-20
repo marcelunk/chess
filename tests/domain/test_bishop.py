@@ -19,7 +19,7 @@ def test_bishop_options_empty_board():
     game_state = GameStateFactory.create_empty_game_state()
     bishop = Bishop(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(bishop, source)
+    game_state.place_piece(bishop, source, False)
     moves = _get_legal_moves(source, game_state, bishop)
     assert len(moves) == 13
     assert Square.from_string('a1') in moves
@@ -40,9 +40,9 @@ def test_bishop_options_with_emenies():
     game_state = GameStateFactory.create_empty_game_state()
     bishop = Bishop(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(bishop, source)
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('f6'))
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('f2'))
+    game_state.place_piece(bishop, source, False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('f6'), False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('f2'), False)
     moves = _get_legal_moves(source, game_state, bishop)
     assert len(moves) == 10
     assert Square.from_string('a1') in moves
@@ -60,9 +60,9 @@ def test_bishop_options_with_allies():
     game_state = GameStateFactory.create_empty_game_state()
     bishop = Bishop(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(bishop, source)
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('f6'))
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('f2'))
+    game_state.place_piece(bishop, source, False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('f6'), False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('f2'), False)
     moves = _get_legal_moves(source, game_state, bishop)
     assert len(moves) == 8
     assert Square.from_string('a1') in moves

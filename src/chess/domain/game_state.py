@@ -15,7 +15,8 @@ class GameState:
         self._piece_by_square = state
         self.en_passant_square = en_passant_square
 
-    def place_piece(self, piece: Piece, square: Square):
+    def place_piece(self, piece: Piece, square: Square, in_start_position: bool):
+        piece.in_start_position = in_start_position
         self._piece_by_square[square] = piece
 
     def get_piece(self, square: Square) -> Piece:

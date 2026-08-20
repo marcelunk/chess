@@ -21,7 +21,7 @@ def test_knight_options_empty_board():
     game_state = GameStateFactory.create_empty_game_state()
     knight = Knight(Color.WHITE)
     source = Square.from_string('d4')
-    game_state.place_piece(knight, source)
+    game_state.place_piece(knight, source, False)
     moves = _get_legal_moves(source, game_state, knight)
     assert len(moves) == 8
     assert Square.from_string('b3') in moves
@@ -37,9 +37,9 @@ def test_knight_options_with_emenies():
     game_state = GameStateFactory.create_empty_game_state()
     knight = Knight(Color.WHITE)
     source = Square.from_string('b4')
-    game_state.place_piece(knight, source)
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('c6'))
-    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('a2'))
+    game_state.place_piece(knight, source, False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('c6'), False)
+    game_state.place_piece(Pawn(Color.BLACK), Square.from_string('a2'), False)
     moves = _get_legal_moves(source, game_state, knight)
     assert len(moves) == 6
     assert Square.from_string('c6') in moves
@@ -53,9 +53,9 @@ def test_knight_options_with_allies():
     game_state = GameStateFactory.create_empty_game_state()
     knight = Knight(Color.WHITE)
     source = Square.from_string('b4')
-    game_state.place_piece(knight, source)
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('c6'))
-    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('a2'))
+    game_state.place_piece(knight, source, False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('c6'), False)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('a2'), False)
     moves = _get_legal_moves(source, game_state, knight)
     assert len(moves) == 4
     assert Square.from_string('a6') in moves
