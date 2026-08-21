@@ -18,3 +18,6 @@ def test_valid_input():
     game = Game()
     input = "a2a3"
     game.make_move(input)
+
+def test_changing_turns():
+    pass

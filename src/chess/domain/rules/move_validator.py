@@ -13,7 +13,7 @@ def validate_move(source: Square, target: Square, game_state: GameState, turn: C
         return False
 
     if isinstance(piece, Pawn):
-        return target in _get_pawn_legal_moves(source, game_state, piece)
+        return target in _get_legal_moves_pawn(source, game_state, piece)
     else:
         return target in _get_legal_moves(source, game_state, piece)
 
@@ -51,7 +51,7 @@ def _get_possible_moves(file, rank, game_state, piece):
 
     return legal_moves
 
-def _get_pawn_legal_moves(source, game_state, pawn):
+def _get_legal_moves_pawn(source, game_state, pawn):
     color = pawn.color
     file = source.file
     rank = source.rank
@@ -92,7 +92,7 @@ def _get_pawn_legal_moves(source, game_state, pawn):
         legal_moves.add(hit_two)
 
     en_passant_square = game_state.en_passant_square
-    if _en_passant_is_allowed(en_passant_square, source):
+    if _en_passant_is_allowed(en_passant_square, source, pawn):
         legal_moves.add(en_passant_square)
 
     # TODO add change piece
@@ -103,12 +103,22 @@ def _pawn_can_hit(game_state, color, square):
     x = game_state.get_piece(square)
     return x is not None and x.color is not color
 
-def _en_passant_is_allowed(en_passant_square, source):
+def _en_passant_is_allowed(en_passant_square, source, pawn):
     if en_passant_square is None:
         return False
+
+    move_pattern = pawn.move_patterns[0]
+    new_rank = None
+    if pawn.color is Color.WHITE:
+        new_rank = source.rank + move_pattern.direction[1]
+    else:
+        new_rank = source.rank - move_pattern.direction[1]
+
+    possible_en_passant_squares = set()
+    possible_en_passant_squares.add(Square(source.file + 1, new_rank))
+    possible_en_passant_squares.add(Square(source.file - 1, new_rank))
     
-    one_file_difference = (en_passant_square.file - source.file) % 1 == 0
-    return one_file_difference and en_passant_square.rank == source.rank
+    return en_passant_square in possible_en_passant_squares
 
 def _is_inside_board(square):
     return (square.file >= 0 and square.file < 8) and (square.rank >= 0 and square.rank < 8)

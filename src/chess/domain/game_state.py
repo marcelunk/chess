@@ -33,7 +33,11 @@ class GameState:
             diff = source.rank - target.rank
             moved_two_squares = (diff) % 2 == 0
             if isinstance(moving_piece, Pawn) and moved_two_squares:
-                en_passant_square = Square(source.file, source.rank + (diff/2))
+                if diff > 0:
+                    en_passant_square = Square(source.file, source.rank - 1)
+                else:
+                    en_passant_square = Square(source.file, source.rank + 1)
+                    
         return GameState(new_state, en_passant_square)
 
     def __str__(self):
