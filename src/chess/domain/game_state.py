@@ -40,6 +40,13 @@ class GameState:
                     
         return GameState(new_state, en_passant_square)
 
+    def get_king_square(self, color: Color) -> Square:
+        for square, piece in self._piece_by_square.items():
+            if isinstance(piece, King) and piece.color is color:
+                return square
+            
+        raise ValueError(f"No {color} king found")
+
     def __str__(self):
         squares = list(self._piece_by_square.keys())
         squares.sort()

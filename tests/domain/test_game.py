@@ -1,7 +1,6 @@
 import pytest
 from chess.domain.color import Color
 from chess.domain.game import Game
-from chess.domain.pieces.pawn import Pawn
 
 
 def test_invalid_input():

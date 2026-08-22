@@ -18,17 +18,11 @@ def validate_move(source: Square, target: Square, game_state: GameState, turn: C
         return target in _get_legal_moves(source, game_state, piece)
 
 def _get_legal_moves(source, game_state, piece):
-    legal_moves = set()
-
-    legal_moves = legal_moves.union(_get_possible_moves(source.file, source.rank, game_state, piece))
-
-    # TODO add rochade
-
-    return legal_moves
-
-def _get_possible_moves(file, rank, game_state, piece):
     color = piece.color
+    file = source.file
+    rank = source.rank
     legal_moves = set()
+
     for pattern in piece.move_patterns:
         vector = pattern.direction
         max_distance = pattern.max_distance

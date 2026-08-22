@@ -1,6 +1,5 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
-from chess.domain.pieces.pawn import Pawn
 from chess.domain.pieces.queen import Queen
 from chess.domain.rules.move_validator import validate_move
 from chess.domain.square import Square
@@ -46,10 +45,5 @@ def test_piece_can_not_move_outside_of_board_top_right_corner():
     assert not validate_move(source, Square(8, 7), game_state, Color.WHITE)
     assert not validate_move(source, Square(8, 6), game_state, Color.WHITE)
 
-def test_pawn():
-    # TODO
-    pass
-
-def test_not_pawn():
-    # TODO
+def test_invalid_move_due_to_king_not_safe():
     pass
