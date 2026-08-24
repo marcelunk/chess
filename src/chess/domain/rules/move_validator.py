@@ -13,11 +13,11 @@ def validate_move(source: Square, target: Square, game_state: GameState, turn: C
         return False
 
     if isinstance(piece, Pawn):
-        return target in _get_legal_moves_pawn(source, game_state, piece)
+        return target in _get_moves_pawn(source, game_state, piece)
     else:
-        return target in _get_legal_moves(source, game_state, piece)
+        return target in _get_moves(source, game_state, piece)
 
-def _get_legal_moves(source, game_state, piece):
+def _get_moves(source, game_state, piece):
     color = piece.color
     file = source.file
     rank = source.rank
@@ -45,7 +45,7 @@ def _get_legal_moves(source, game_state, piece):
 
     return legal_moves
 
-def _get_legal_moves_pawn(source, game_state, pawn):
+def _get_moves_pawn(source, game_state, pawn):
     color = pawn.color
     file = source.file
     rank = source.rank
@@ -77,23 +77,21 @@ def _get_legal_moves_pawn(source, game_state, pawn):
 
             legal_moves.add(target)
 
-    hit_one = Square(file + 1, rank + vector[1])
-    if _is_inside_board(hit_one) and _pawn_can_hit(game_state, color, hit_one):
-        legal_moves.add(hit_one)
+    possible_capture_one = Square(file + 1, rank + vector[1])
+    if _is_inside_board(possible_capture_one) and _pawn_can_capture(game_state, color, possible_capture_one):
+        legal_moves.add(possible_capture_one)
 
-    hit_two = Square(file - 1, rank + vector[1])
-    if _is_inside_board(hit_two) and _pawn_can_hit(game_state, color, hit_two):
-        legal_moves.add(hit_two)
+    possible_capture_two = Square(file - 1, rank + vector[1])
+    if _is_inside_board(possible_capture_two) and _pawn_can_capture(game_state, color, possible_capture_two):
+        legal_moves.add(possible_capture_two)
 
     en_passant_square = game_state.en_passant_square
     if _en_passant_is_allowed(en_passant_square, source, pawn):
         legal_moves.add(en_passant_square)
 
-    # TODO add change piece
-
     return legal_moves
 
-def _pawn_can_hit(game_state, color, square):
+def _pawn_can_capture(game_state, color, square):
     x = game_state.get_piece(square)
     return x is not None and x.color is not color
 
