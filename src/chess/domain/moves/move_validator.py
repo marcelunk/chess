@@ -23,7 +23,7 @@ def _get_moves(source, game_state, piece):
     rank = source.rank
 
     legal_moves = set()
-    for pattern in piece.move_patterns:
+    for pattern in piece.movement_patterns:
         legal_moves = legal_moves.union(_get_moves_from_vector(game_state, color, file, rank, pattern.vector, pattern.max_distance))
 
     return legal_moves
@@ -34,7 +34,7 @@ def _get_moves_pawn(source, game_state, pawn):
     rank = source.rank
     legal_moves = set()
 
-    for vector, max_distance in pawn.move_patterns:
+    for vector, max_distance in pawn.movement_patterns:
         if color is Color.BLACK:
             vector = (vector[0], vector[1] * -1)
 
@@ -85,7 +85,7 @@ def _en_passant_is_allowed(en_passant_square, source, pawn):
     if en_passant_square is None:
         return False
 
-    move_pattern = pawn.move_patterns[0]
+    move_pattern = pawn.movement_patterns[0]
     new_rank = None
     if pawn.color is Color.WHITE:
         new_rank = source.rank + move_pattern.vector[1]

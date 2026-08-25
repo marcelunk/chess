@@ -1,7 +1,7 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
 from chess.domain.pieces.queen import Queen
-from chess.domain.rules.move_validator import validate_move
+from chess.domain.moves.move_validator import validate_move
 from chess.domain.square import Square
 
 

@@ -2,7 +2,7 @@ import re
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
 from chess.domain.rules.check_detector import game_state_is_in_check
-from chess.domain.rules.move_validator import validate_move
+from chess.domain.moves.move_validator import validate_move
 from chess.domain.square import Square
 
 class Game:

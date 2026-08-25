@@ -2,7 +2,7 @@ from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.pieces.king import King
-from chess.domain.rules.move_validator import _get_moves
+from chess.domain.moves.move_validator import _get_moves
 from chess.domain.square import Square
 
 

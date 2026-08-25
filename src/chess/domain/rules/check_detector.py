@@ -59,7 +59,7 @@ def _can_capture(source, target, game_state):
     piece = game_state.get_piece(source)
     file = source.file
     rank = source.rank
-    for vector, max_distance in piece.move_patterns:
+    for vector, max_distance in piece.movement_patterns:
         for i in range(1, max_distance + 1):
             diff_file = i * vector[0]
             diff_rank = i * vector[1]
