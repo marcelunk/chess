@@ -5,7 +5,7 @@ from chess.domain.square import Square
 
 
 def validate_move(source: Square, target: Square, game_state: GameState, turn: Color) -> bool:
-    if not _is_inside_board(target):
+    if target.is_outside_board:
         return False
 
     piece = game_state.get_piece(source)
@@ -34,10 +34,7 @@ def _get_moves_pawn(source, game_state, pawn):
     rank = source.rank
     legal_moves = set()
 
-    for pattern in pawn.move_patterns:
-        vector = pattern.vector
-        max_distance = pattern.max_distance
-
+    for vector, max_distance in pawn.move_patterns:
         if color is Color.BLACK:
             vector = (vector[0], vector[1] * -1)
 
@@ -47,11 +44,11 @@ def _get_moves_pawn(source, game_state, pawn):
         legal_moves = legal_moves.union(_get_moves_from_vector(game_state, color, file, rank, vector, max_distance))
 
     possible_capture_one = Square(file + 1, rank + vector[1])
-    if _is_inside_board(possible_capture_one) and _pawn_can_capture(game_state, color, possible_capture_one):
+    if possible_capture_one.is_inside_board and _pawn_can_capture(game_state, color, possible_capture_one):
         legal_moves.add(possible_capture_one)
 
     possible_capture_two = Square(file - 1, rank + vector[1])
-    if _is_inside_board(possible_capture_two) and _pawn_can_capture(game_state, color, possible_capture_two):
+    if possible_capture_two.is_inside_board and _pawn_can_capture(game_state, color, possible_capture_two):
         legal_moves.add(possible_capture_two)
 
     en_passant_square = game_state.en_passant_square
@@ -66,7 +63,7 @@ def _get_moves_from_vector(game_state, color, file, rank, vector, max_distance):
         diff_file = i * vector[0]
         diff_rank = i * vector[1]
         target = Square(file + diff_file, rank + diff_rank)
-        if not _is_inside_board(target):
+        if target.is_outside_board:
             break
 
         p = game_state.get_piece(target)
@@ -100,6 +97,3 @@ def _en_passant_is_allowed(en_passant_square, source, pawn):
     possible_en_passant_squares.add(Square(source.file - 1, new_rank))
     
     return en_passant_square in possible_en_passant_squares
-
-def _is_inside_board(square):
-    return (square.file >= 0 and square.file < 8) and (square.rank >= 0 and square.rank < 8)

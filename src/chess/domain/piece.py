@@ -1,9 +1,5 @@
 from abc import ABC
-from dataclasses import dataclass
-
 from chess.domain.color import Color
-
-MAX_DISTANCE = 7
 
 class Piece(ABC):
 

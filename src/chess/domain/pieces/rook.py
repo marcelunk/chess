@@ -1,5 +1,5 @@
-from chess.domain.move_pattern import MovePattern
-from chess.domain.piece import MAX_DISTANCE, Piece
+from chess.domain.move_pattern import MAX_DISTANCE, MovePattern
+from chess.domain.piece import Piece
 
 
 class Rook(Piece):
