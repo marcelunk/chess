@@ -1,6 +1,7 @@
 import re
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
+from chess.domain.rules.check_detector import game_state_is_in_check
 from chess.domain.rules.move_validator import validate_move
 from chess.domain.square import Square
 
@@ -26,6 +27,9 @@ class Game:
             # make move
             self.history.append(self.current_game_state)
             self.current_game_state = self.current_game_state.make_move(source_square, target_square)
+            if game_state_is_in_check(self.current_game_state, self.turn):
+                # rollback
+                pass
 
     @property
     def turn(self) -> Color:
