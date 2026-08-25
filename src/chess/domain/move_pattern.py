@@ -3,7 +3,7 @@ from dataclasses import dataclass
 MAX_DISTANCE = 7
 
 @dataclass(frozen=True)
-class MovePattern:
+class MovementPattern:
     vector: tuple 
     max_distance: int
 

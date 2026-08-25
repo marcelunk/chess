@@ -1,4 +1,4 @@
-from chess.domain.move_pattern import MovePattern
+from chess.domain.move_pattern import MovementPattern
 from chess.domain.piece import Piece
 
 
@@ -6,7 +6,7 @@ class Pawn(Piece):
 
     def __init__(self, color):
         super().__init__(color)
-        self.move_patterns.append(MovePattern((0, 1), 1))
+        self.movement_patterns.append(MovementPattern((0, 1), 1))
 
     def __str__(self):
-        return "PA" + str(self.color.value)
+        return "P" + str(self.color.value)

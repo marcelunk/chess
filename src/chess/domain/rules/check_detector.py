@@ -1,24 +1,24 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameState
-from chess.domain.move_pattern import MAX_DISTANCE, MovePattern
+from chess.domain.move_pattern import MAX_DISTANCE, MovementPattern
 from chess.domain.square import Square
 
 _attack_vectors = list().extend([
-    MovePattern((0, 1), MAX_DISTANCE), 
-    MovePattern((1, 1), MAX_DISTANCE), 
-    MovePattern((1, 0), MAX_DISTANCE), 
-    MovePattern((1, -1), MAX_DISTANCE),
-    MovePattern((0, -1), MAX_DISTANCE), 
-    MovePattern((-1, -1), MAX_DISTANCE), 
-    MovePattern((-1, 0), MAX_DISTANCE), 
-    MovePattern((-1, 1), MAX_DISTANCE),
-    MovePattern((1, 2), 1),
-    MovePattern((2, 1), 1),
-    MovePattern((2, -1), 1),
-    MovePattern((-1, -2), 1),
-    MovePattern((-2, -1), 1),
-    MovePattern((-2, 1), 1),
-    MovePattern((-1, 2), 1),
+    MovementPattern((0, 1), MAX_DISTANCE), 
+    MovementPattern((1, 1), MAX_DISTANCE), 
+    MovementPattern((1, 0), MAX_DISTANCE), 
+    MovementPattern((1, -1), MAX_DISTANCE),
+    MovementPattern((0, -1), MAX_DISTANCE), 
+    MovementPattern((-1, -1), MAX_DISTANCE), 
+    MovementPattern((-1, 0), MAX_DISTANCE), 
+    MovementPattern((-1, 1), MAX_DISTANCE),
+    MovementPattern((1, 2), 1),
+    MovementPattern((2, 1), 1),
+    MovementPattern((2, -1), 1),
+    MovementPattern((-1, -2), 1),
+    MovementPattern((-2, -1), 1),
+    MovementPattern((-2, 1), 1),
+    MovementPattern((-1, 2), 1),
 ])
 
 def game_state_is_in_check(game_state: GameState, turn: Color) -> bool:

@@ -6,4 +6,4 @@ class Piece(ABC):
     def __init__(self, color: Color):
         self.color = color
         self.in_start_position = True
-        self.move_patterns = list()
+        self.movement_patterns = list()
