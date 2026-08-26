@@ -1,21 +1,37 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameState
-from chess.domain.pieces.pawn import Pawn
+from chess.domain.moves.move_generator import moves_for
 from chess.domain.square import Square
 
 
+# Ist dieser konkrete Zug nach allen Schachregeln legal?
 def validate_move(source: Square, target: Square, game_state: GameState, turn: Color) -> bool:
-    if target.is_outside_board:
+    if source.is_outside_board or target.is_outside_board:
         return False
 
     piece = game_state.get_piece(source)
     if piece is None or piece.color is not turn:
         return False
 
-    if isinstance(piece, Pawn):
-        return target in _get_moves_pawn(source, game_state, piece)
-    else:
-        return target in _get_moves(source, game_state, piece)
+    for move in moves_for(game_state, source):
+        if move is target:
+            return True
+
+    
+
+    # possible_capture_one = Square(file + 1, rank + vector[1])
+    # if possible_capture_one.is_inside_board and _pawn_can_capture(game_state, color, possible_capture_one):
+    #     legal_moves.add(possible_capture_one)
+
+    # possible_capture_two = Square(file - 1, rank + vector[1])
+    # if possible_capture_two.is_inside_board and _pawn_can_capture(game_state, color, possible_capture_two):
+    #     legal_moves.add(possible_capture_two)
+
+    # en_passant_square = game_state.en_passant_square
+    # if _en_passant_is_allowed(en_passant_square, source, pawn):
+    #     legal_moves.add(en_passant_square)
+
+    return False
 
 def _get_moves(source, game_state, piece):
     color = piece.color
