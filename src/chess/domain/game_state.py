@@ -22,6 +22,9 @@ class GameState:
     def get_piece(self, square: Square) -> Piece:
         return self._piece_by_square[square]
 
+    def is_occupied(self, square: Square) -> bool:
+        return self.get_piece(square) is not None
+
     def make_move(self, source: Square, target: Square) -> GameState:
         new_state = self._piece_by_square.copy()
         en_passant_square = None

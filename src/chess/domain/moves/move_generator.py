@@ -50,11 +50,11 @@ def _moves_for_pawn(state: GameState, origin: Square, pawn: Pawn, pattern: Movem
         max_distance = 2
 
     capture_one = Square(file + 1, rank + vector[1] * 1)
-    if state.get_piece(capture_one) is not None:
+    if capture_one.is_inside_board and state.is_occupied(capture_one):
         yield capture_one
 
     capture_two = Square(file - 1, rank + vector[1] * 1)
-    if state.get_piece(capture_two) is not None:
+    if capture_two.is_inside_board and state.is_occupied(capture_two):
         yield capture_two
 
     for i in range(1, max_distance + 1):

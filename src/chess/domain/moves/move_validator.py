@@ -15,7 +15,7 @@ def validate_move(source: Square, target: Square, game_state: GameState, turn: C
         return False
 
     for move in moves_for(game_state, source):
-        if move is target:
+        if move == target:
             return True
 
     if isinstance(piece, Pawn):
