@@ -1,14 +1,13 @@
 from collections.abc import Iterator
 
-from chess.domain.color import Color
 from chess.domain.game_state import GameState
 from chess.domain.move_pattern import MovementPattern
 from chess.domain.piece import Piece
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.square import Square
 
-# Welche Züge sind von hier aus aufgrund der Figurenbewegung möglich?
 def moves_for(state: GameState, square: Square) -> Iterator[Square]:
+    # Yields moves which are possible according to the given game state and piece
     piece = state.get_piece(square)
 
     if isinstance(piece, Pawn):

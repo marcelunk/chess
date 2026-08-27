@@ -1,6 +1,7 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
 from chess.domain.moves.move_generator import moves_for
+from chess.domain.moves.move_validator import validate_move
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.pieces.rook import Rook
 from chess.domain.square import Square
@@ -116,14 +117,14 @@ def test_en_passant_white_pawn():
     next_game_state = game_state.make_move(Square.from_string('b7'), Square.from_string('b5'))
     moves = set()
     moves.update([
-        Square.from_string('b6'),
         Square.from_string('c6'),
     ])
     count_moves = 0
     for move in moves_for(next_game_state, source_white_pawn):
         assert move in moves
         count_moves += 1
-    assert count_moves == 2
+    assert count_moves == 1
+    assert validate_move(source_white_pawn, Square.from_string('b6'), next_game_state, Color.WHITE)
 
 def test_en_passant_black_pawn():
     game_state = GameStateFactory.create_empty_game_state()
@@ -136,13 +137,13 @@ def test_en_passant_black_pawn():
     moves = set()
     moves.update([
         Square.from_string('b3'),
-        Square.from_string('c3'),
     ])
     count_moves = 0
     for move in moves_for(next_game_state, source_black_pawn):
         assert move in moves
         count_moves += 1
-    assert count_moves == 2
+    assert count_moves == 1
+    assert validate_move(source_black_pawn, Square.from_string('c3'), next_game_state, Color.BLACK)
 
 def test_swap():
     pass
