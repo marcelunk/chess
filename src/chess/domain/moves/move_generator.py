@@ -14,7 +14,7 @@ def moves_for(state: GameState, square: Square) -> Iterator[Square]:
         yield from _moves_for_pawn(state, square, piece, piece.movement_patterns[0])
     else:
         for pattern in piece.movement_patterns:
-            yield from _moves_for_pattern(state, square, piece, pattern) # TODO maybe not yield from?
+            yield from _moves_for_pattern(state, square, piece, pattern)
 
 def _moves_for_pattern(state: GameState, origin: Square, piece: Piece, pattern: MovementPattern) -> Iterator[Square]:
     file = origin.file

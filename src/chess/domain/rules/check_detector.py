@@ -26,12 +26,12 @@ def game_state_is_in_check(game_state: GameState, turn: Color) -> bool:
     # checks if the king of this turn is in check according to the given game state
     # TODO does not consider check due to en passant 
     king_square = game_state.get_king_square(turn)
-    return _is_attacked(game_state, king_square, turn.opposite)
+    return _is_attacked(game_state, king_square, turn)
 
 def _is_attacked(game_state, king_square, turn):
     for origin_attacker in _get_potential_attackers(game_state, king_square, turn):
-        for target_attacker in moves_for(game_state, origin_attacker):
-            if target_attacker is king_square:
+        for threaten in moves_for(game_state, origin_attacker):
+            if threaten == king_square:
                 return True
 
     return False
