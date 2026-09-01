@@ -24,7 +24,6 @@ _potential_attack_vectors = [
 
 def game_state_is_in_check(game_state: GameState, turn: Color) -> bool:
     # checks if the king of this turn is in check according to the given game state
-    # TODO does not consider check due to en passant 
     king_square = game_state.get_king_square(turn)
     return _is_attacked(game_state, king_square, turn)
 

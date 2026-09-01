@@ -44,6 +44,3 @@ def test_piece_can_not_move_outside_of_board_top_right_corner():
     assert not validate_move(source, Square(8, 8), game_state, Color.WHITE)
     assert not validate_move(source, Square(8, 7), game_state, Color.WHITE)
     assert not validate_move(source, Square(8, 6), game_state, Color.WHITE)
-
-def test_invalid_move_due_to_king_not_safe():
-    pass

@@ -1,7 +1,6 @@
 import re
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
-from chess.domain.rules.check_detector import game_state_is_in_check
 from chess.domain.moves.move_validator import validate_move
 from chess.domain.square import Square
 
@@ -33,10 +32,7 @@ class Game:
 
     @property
     def turn(self) -> Color:
-        if len(self.history) % 2 == 0:
-            return Color.WHITE
-        else:
-            return Color.BLACK
+        return Color.WHITE if len(self.history) % 2 == 0 else Color.BLACK
 
     def _validate_input(self, input):
         if self.input_pattern.match(input) is None:

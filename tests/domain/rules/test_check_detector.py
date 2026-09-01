@@ -3,6 +3,7 @@ from chess.domain.game_state import GameStateFactory
 from chess.domain.moves.move_validator import validate_move
 from chess.domain.pieces.bishop import Bishop
 from chess.domain.pieces.king import King
+from chess.domain.pieces.knight import Knight
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.pieces.queen import Queen
 from chess.domain.rules.check_detector import game_state_is_in_check
@@ -31,7 +32,9 @@ def test_figure_pinned_due_to_check():
     assert not is_valid
 
 def test_king_is_threaten_by_knight():
-    pass
-
-def test_check_due_to_en_passant():
-    pass
+    game_state = GameStateFactory.create_empty_game_state()
+    game_state.place_piece(King(Color.WHITE), Square.from_string('e1'), True)
+    game_state.place_piece(Pawn(Color.WHITE), Square.from_string('d2'), True)
+    game_state.place_piece(Knight(Color.BLACK), Square.from_string('f3'), False)
+    assert not validate_move(Square.from_string('d2'), Square.from_string('d3'), game_state, Color.WHITE)
+    assert validate_move(Square.from_string('e1'), Square.from_string('f1'), game_state, Color.WHITE)
