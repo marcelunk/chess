@@ -11,6 +11,3 @@ class Pawn(Piece):
 
     def __str__(self):
         return "P" + str(self.color.value)
-
-
-    # TODO yield movement_patterns with generator?
