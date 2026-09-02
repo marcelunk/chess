@@ -2,6 +2,7 @@ import re
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
 from chess.domain.moves.move_validator import validate_move
+from chess.domain.rules.checkmate_detector import game_state_is_in_checkmate
 from chess.domain.square import Square
 
 class Game:
@@ -26,9 +27,16 @@ class Game:
             # make move
             self.history.append(self.current_game_state)
             self.current_game_state = self.current_game_state.make_move(source_square, target_square)
+            if game_state_is_in_checkmate(self.current_game_state, self.turn):
+                self.end_game(self)
 
     def reverse_last_move(self):
         self.current_game_state = self.history.pop()
+
+    def end_game(self):
+        # Stop game loop
+        # print and log game finished
+        pass
 
     @property
     def turn(self) -> Color:
