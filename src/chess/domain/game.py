@@ -28,7 +28,7 @@ class Game:
             self.history.append(self.current_game_state)
             self.current_game_state = self.current_game_state.make_move(source_square, target_square)
             if game_state_is_in_checkmate(self.current_game_state, self.turn):
-                self.end_game(self)
+                self.end_game()
 
     def reverse_last_move(self):
         self.current_game_state = self.history.pop()

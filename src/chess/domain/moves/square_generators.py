@@ -25,6 +25,7 @@ _potential_attack_vectors = [
 ]
 
 def attackers_for(game_state: GameState, square: Square, attacker: Color) -> Iterator[Square]:
+    # Yields attackers of a square
     for origin_attacker in _get_potential_attackers(game_state, square, attacker):
         for threaten in moves_for(game_state, origin_attacker):
             if threaten == square:
@@ -45,3 +46,7 @@ def _get_potential_attackers(game_state, square, attacker):
 
             if occupant is not None and occupant.color is attacker:
                 yield target
+
+def squares_between(game_state, square_a, square_b):
+    # Compute all squares that can be reached from these squares and are equal?
+    pass
