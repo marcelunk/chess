@@ -1,3 +1,7 @@
+from collections.abc import Iterator
+
+from chess.domain.color import Color
+from chess.domain.game_state import GameState
 from chess.domain.move_pattern import MAX_DISTANCE, MovementPattern
 from chess.domain.moves.move_generator import moves_for
 from chess.domain.square import Square
@@ -20,18 +24,13 @@ _potential_attack_vectors = [
     MovementPattern((-1, 2), 1),
 ]
 
-def square_is_attacked(game_state, square, turn) -> bool:
-    for origin_attacker in _get_potential_attackers(game_state, square, turn):
+def attackers_for(game_state: GameState, square: Square, attacker: Color) -> Iterator[Square]:
+    for origin_attacker in _get_potential_attackers(game_state, square, attacker):
         for threaten in moves_for(game_state, origin_attacker):
             if threaten == square:
-                return True
+                yield origin_attacker
 
-    return False
-
-def square_can_be_reached(game_state, square, turn) -> bool:
-    pass
-
-def _get_potential_attackers(game_state, square, turn):
+def _get_potential_attackers(game_state, square, attacker):
     file = square.file
     rank = square.rank
     for vector, max_distance in _potential_attack_vectors:
@@ -44,5 +43,5 @@ def _get_potential_attackers(game_state, square, turn):
 
             occupant = game_state.get_piece(target)
 
-            if occupant is not None and occupant.color is not turn:
+            if occupant is not None and occupant.color is attacker:
                 yield target

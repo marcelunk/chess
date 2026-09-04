@@ -74,3 +74,6 @@ def _moves_for_pawn(state: GameState, origin: Square, pawn: Pawn, pattern: Movem
             break
         else:
             break
+
+
+    
