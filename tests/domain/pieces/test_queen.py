@@ -1,6 +1,6 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
-from chess.domain.moves.move_generator import moves_for
+from chess.domain.moves.move_generator import moves_from
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.pieces.queen import Queen
 from chess.domain.square import Square
@@ -11,7 +11,7 @@ def test_queen_options_from_start_position():
     source = Square.from_string('d1')
     queen = game_state.get_piece(source)
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         count_moves += 1
     assert isinstance(queen, Queen)
     assert queen.color is Color.WHITE
@@ -53,7 +53,7 @@ def test_queen_options_empty_board():
         Square.from_string('h8'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 27
@@ -92,7 +92,7 @@ def test_queen_options_with_emenies():
         Square.from_string('h8'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1    
     assert count_moves == 23
@@ -129,7 +129,7 @@ def test_queen_options_with_allies():
         Square.from_string('h8'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 21

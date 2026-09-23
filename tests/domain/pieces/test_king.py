@@ -1,6 +1,6 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
-from chess.domain.moves.move_generator import moves_for
+from chess.domain.moves.move_generator import moves_from
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.pieces.king import King
 from chess.domain.square import Square
@@ -11,7 +11,7 @@ def test_king_options_from_start_position():
     source = Square.from_string('e1')
     king = game_state.get_piece(source)
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         count_moves += 1
     assert isinstance(king, King)
     assert king.color is Color.WHITE
@@ -34,7 +34,7 @@ def test_king_options_empty_board():
         Square.from_string('c5'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 8
@@ -59,7 +59,7 @@ def test_king_options_with_emenies():
         Square.from_string('c5'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         count_moves += 1
         assert move in moves
     assert count_moves == 8
@@ -81,7 +81,7 @@ def test_king_options_with_allies():
         Square.from_string('c5'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert len(moves) == 6

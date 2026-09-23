@@ -1,6 +1,6 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
-from chess.domain.moves.move_generator import moves_for
+from chess.domain.moves.move_generator import moves_from
 from chess.domain.pieces.bishop import Bishop
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.square import Square
@@ -11,7 +11,7 @@ def test_bishop_options_from_start_position():
     source = Square.from_string('c1')
     bishop = game_state.get_piece(source)
     count_moves = 0 
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         count_moves += 1
     assert count_moves == 0
     assert isinstance(bishop, Bishop)
@@ -39,7 +39,7 @@ def test_bishop_options_empty_board():
         Square.from_string('h8'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 13
@@ -66,7 +66,7 @@ def test_bishop_options_with_emenies():
     ])
 
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 10
@@ -90,7 +90,7 @@ def test_bishop_options_with_allies():
         Square.from_string('e5'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 8

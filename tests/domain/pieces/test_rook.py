@@ -1,6 +1,6 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
-from chess.domain.moves.move_generator import moves_for
+from chess.domain.moves.move_generator import moves_from
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.pieces.rook import Rook
 from chess.domain.square import Square
@@ -16,7 +16,7 @@ def test_rook_options_from_start_position():
     moves.update([
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         count_moves += 1
     assert count_moves == 0
 
@@ -43,7 +43,7 @@ def test_rook_options_empty_board():
         Square.from_string('d8'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 14
@@ -70,7 +70,7 @@ def test_rook_options_with_emenies():
         Square.from_string('d7'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 11
@@ -95,7 +95,7 @@ def test_rook_options_with_allies():
         Square.from_string('d6'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 9

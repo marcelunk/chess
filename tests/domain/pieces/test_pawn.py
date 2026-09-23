@@ -1,6 +1,6 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameStateFactory
-from chess.domain.moves.move_generator import moves_for
+from chess.domain.moves.move_generator import moves_from
 from chess.domain.moves.move_validator import validate_move
 from chess.domain.pieces.king import King
 from chess.domain.pieces.pawn import Pawn
@@ -17,7 +17,7 @@ def test_possible_moves_white_from_start_position():
         Square.from_string('b4'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 2
@@ -31,7 +31,7 @@ def test_possible_moves_black_from_start_position():
         Square.from_string('b5'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 2
@@ -50,7 +50,7 @@ def test_possible_hits_white_from_start_position():
         Square.from_string('c4'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 3
@@ -69,7 +69,7 @@ def test_possible_hits_black_from_start_position():
         Square.from_string('c5'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 3
@@ -86,7 +86,7 @@ def test_possible_hits_white():
         Square.from_string('c5'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 2
@@ -103,7 +103,7 @@ def test_possible_hits_black():
         Square.from_string('c3'),
     ])
     count_moves = 0
-    for move in moves_for(game_state, source):
+    for move in moves_from(game_state, source):
         assert move in moves
         count_moves += 1
     assert count_moves == 2
@@ -123,7 +123,7 @@ def test_en_passant_white_pawn():
         Square.from_string('c6'),
     ])
     count_moves = 0
-    for move in moves_for(next_game_state, source_white_pawn):
+    for move in moves_from(next_game_state, source_white_pawn):
         assert move in moves
         count_moves += 1
     assert count_moves == 1
@@ -144,7 +144,7 @@ def test_en_passant_black_pawn():
         Square.from_string('b3'),
     ])
     count_moves = 0
-    for move in moves_for(next_game_state, source_black_pawn):
+    for move in moves_from(next_game_state, source_black_pawn):
         assert move in moves
         count_moves += 1
     assert count_moves == 1
