@@ -14,12 +14,16 @@ def game_state_is_in_checkmate(game_state: GameState, turn: Color) -> bool:
 
         # can the attacker be blocked?
         if not isinstance(origin_attacker, Knight):
-            for square in squares_between(game_state, king_square, origin_attacker):
-                if any(moves_from(game_state, square, turn)):
-                    return False
+            for square in squares_between(king_square, origin_attacker):
+                for from_square in moves_to(game_state, square, turn):
+                    if from_square != king_square:
+                        return False
         
         # can the king move away?
-        if any(moves_from(game_state, king_square)):
+        for move in moves_from(game_state, king_square):
+            if any(moves_to(game_state, move, turn.opposite)):
+                continue
+
             return False
 
     return True

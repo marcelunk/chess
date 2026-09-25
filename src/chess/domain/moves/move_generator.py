@@ -32,7 +32,7 @@ def moves_to(game_state: GameState, square: Square, turn: Color) -> Iterator[Squ
             if target == square:
                 yield origin
 
-def _get_potential_origins(game_state, square, attacker):
+def _get_potential_origins(game_state, square, turn):
     file = square.file
     rank = square.rank
     for vector, max_distance in _potential_move_vectors:
@@ -45,7 +45,7 @@ def _get_potential_origins(game_state, square, attacker):
 
             occupant = game_state.get_piece(target)
 
-            if occupant is not None and occupant.color is attacker:
+            if occupant is not None and occupant.color is turn:
                 yield target
 
 def moves_from(state: GameState, square: Square) -> Iterator[Square]:
