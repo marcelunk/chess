@@ -1,11 +1,10 @@
 from chess.domain.color import Color
 from chess.domain.game_state import GameState
-from chess.domain.moves.move_generator import moves_from, moves_to
+from chess.domain.moves.move_generator import moves_from, moves_to, squares_between
 from chess.domain.pieces.knight import Knight
-from chess.domain.moves.square_utilities import squares_between
 
 
-def game_state_is_in_checkmate(game_state: GameState, turn: Color) -> bool:
+def is_in_checkmate(game_state: GameState, turn: Color) -> bool:
     king_square = game_state.get_king_square(turn)
     for origin_attacker in moves_to(game_state, king_square, turn.opposite):
         # can the attacker be hit?
