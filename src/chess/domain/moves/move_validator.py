@@ -2,7 +2,7 @@ from chess.domain.color import Color
 from chess.domain.game_state import GameState
 from chess.domain.moves.move_generator import moves_from
 from chess.domain.pieces.pawn import Pawn
-from chess.domain.rules.check_detector import is_in_check
+from chess.domain.rules.check_detector import is_check
 from chess.domain.square import Square
 
 
@@ -18,12 +18,12 @@ def validate_move(source: Square, target: Square, game_state: GameState, turn: C
     for move in moves_from(game_state, source):
         if move == target:
             new_game_state = game_state.make_move(source, target)
-            return False if is_in_check(new_game_state, turn) else True
+            return False if is_check(new_game_state, turn) else True
             
 
     if isinstance(piece, Pawn) and _en_passant_is_allowed(game_state.en_passant_square, source, piece.movement_patterns[0]):
         new_game_state = game_state.make_move(source, target)
-        return False if is_in_check(new_game_state, turn) else True
+        return False if is_check(new_game_state, turn) else True
 
     return False
 

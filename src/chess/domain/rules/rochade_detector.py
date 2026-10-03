@@ -2,7 +2,7 @@ from chess.domain.color import Color
 from chess.domain.game_state import GameState
 from chess.domain.moves.move_generator import moves_to, squares_between
 from chess.domain.pieces.rook import Rook
-from chess.domain.rules.check_detector import is_in_check
+from chess.domain.rules.check_detector import is_check
 from chess.domain.square import Square
 
 
@@ -52,7 +52,7 @@ def short_rochade_is_possible(game_state: GameState, turn: Color) -> bool:
 
 def _state_of_king_is_valid(game_state, square_king, turn):
     king = game_state.get_piece(square_king)
-    return king.in_start_position and not is_in_check(game_state, turn)
+    return king.in_start_position and not is_check(game_state, turn)
 
 def _state_of_rook_is_valid(game_state, square_rook):
     piece = game_state.get_piece(square_rook)

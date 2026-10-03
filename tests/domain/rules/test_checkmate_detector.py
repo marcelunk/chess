@@ -5,7 +5,7 @@ from chess.domain.pieces.king import King
 from chess.domain.pieces.knight import Knight
 from chess.domain.pieces.pawn import Pawn
 from chess.domain.pieces.rook import Rook
-from chess.domain.rules.checkmate_detector import is_in_checkmate
+from chess.domain.rules.checkmate_detector import is_checkmate
 from chess.domain.square import Square
 
 
@@ -18,7 +18,7 @@ def test_attacker_can_be_captured():
     game_state.place_piece(Pawn(Color.WHITE), Square.from_string('f2'), False)
     game_state.place_piece(Knight(Color.WHITE), Square.from_string('c5'), False)
     game_state.place_piece(Rook(Color.BLACK), Square.from_string('e4'), False)
-    assert not is_in_checkmate(game_state, Color.WHITE)
+    assert not is_checkmate(game_state, Color.WHITE)
 
 def test_attacker_can_be_blocked():
     game_state = GameStateFactory.create_empty_game_state()
@@ -28,7 +28,7 @@ def test_attacker_can_be_blocked():
     game_state.place_piece(Bishop(Color.WHITE), Square.from_string('f1'), False)
     game_state.place_piece(Pawn(Color.WHITE), Square.from_string('f2'), False)
     game_state.place_piece(Rook(Color.BLACK), Square.from_string('e4'), False)
-    assert not is_in_checkmate(game_state, Color.WHITE)
+    assert not is_checkmate(game_state, Color.WHITE)
 
 def test_king_can_move_away():
     game_state = GameStateFactory.create_empty_game_state()
@@ -37,7 +37,7 @@ def test_king_can_move_away():
     game_state.place_piece(Rook(Color.WHITE), Square.from_string('f1'), False)
     game_state.place_piece(Pawn(Color.WHITE), Square.from_string('f2'), False)
     game_state.place_piece(Rook(Color.BLACK), Square.from_string('e4'), False)
-    assert not is_in_checkmate(game_state, Color.WHITE)
+    assert not is_checkmate(game_state, Color.WHITE)
 
 def test_checkmate():
     game_state = GameStateFactory.create_empty_game_state()
@@ -47,7 +47,7 @@ def test_checkmate():
     game_state.place_piece(Rook(Color.WHITE), Square.from_string('f1'), False)
     game_state.place_piece(Pawn(Color.WHITE), Square.from_string('f2'), False)
     game_state.place_piece(Rook(Color.BLACK), Square.from_string('e4'), False)
-    assert is_in_checkmate(game_state, Color.WHITE)
+    assert is_checkmate(game_state, Color.WHITE)
 
 def test_checkmate_by_knight():
     game_state = GameStateFactory.create_empty_game_state()
@@ -58,4 +58,4 @@ def test_checkmate_by_knight():
     game_state.place_piece(Pawn(Color.WHITE), Square.from_string('f2'), False)
     game_state.place_piece(Pawn(Color.WHITE), Square.from_string('e2'), False)
     game_state.place_piece(Knight(Color.BLACK), Square.from_string('g2'), False)
-    assert is_in_checkmate(game_state, Color.WHITE)
+    assert is_checkmate(game_state, Color.WHITE)
