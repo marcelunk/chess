@@ -18,12 +18,12 @@ def validate_move(source: Square, target: Square, game_state: GameState, turn: C
     for move in moves_from(game_state, source):
         if move == target:
             new_game_state = game_state.make_move(source, target)
-            return False if is_check(new_game_state, turn) else True
+            return not is_check(new_game_state, turn)
             
 
     if isinstance(piece, Pawn) and _en_passant_is_allowed(game_state.en_passant_square, source, piece.movement_patterns[0]):
         new_game_state = game_state.make_move(source, target)
-        return False if is_check(new_game_state, turn) else True
+        return not is_check(new_game_state, turn)
 
     return False
 
