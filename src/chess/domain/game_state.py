@@ -11,7 +11,7 @@ from chess.domain.square import Square
 
 class GameState:
 
-    def __init__(self, state, en_passant_square):
+    def __init__(self, state: dict, en_passant_square: Square):
         self._piece_by_square = state
         self.en_passant_square = en_passant_square
 
@@ -54,17 +54,21 @@ class GameState:
         squares = list(self._piece_by_square.keys())
         squares.sort()
         board = ""
-        length = len(squares)
-        for i in range(0, length):
-            square = squares[i]
-            board += str(square)
-            if self._piece_by_square[square] is not None:
-                board += f"({str(self._piece_by_square[square])})"
-            board += ", "
+        for rank in range(7, -1, -1):
+            board += str(rank + 1) + " "
+            for file in range(0, 8):
+                s = Square(file, rank)
+                if self._piece_by_square[s] is not None:
+                    board += str(self._piece_by_square[s])
+                else:
+                    board += "."
+                board += " "
+            board += "\n"
 
-            n = (i+1)
-            if n % 8 == 0 and n < length:
-                board += "\n"
+        for file in range(0, 8):
+            if file == 0:
+                board += "  "
+            board += str(chr(ord('a') + file)) + " "
 
         return board
 
@@ -83,7 +87,7 @@ class GameStateFactory:
         return GameState(piece_by_square, None)
 
     @staticmethod
-    def _init_empty_board():
+    def _init_empty_board() -> dict:
         list_of_pairs = [(Square(file, rank), None) for file in range(8) for rank in range(8)]
         return dict(iter(list_of_pairs))
 
