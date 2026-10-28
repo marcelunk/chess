@@ -18,4 +18,4 @@ class Knight(Piece):
         ])
 
     def __str__(self):
-        return "KN" + str(self.color.value)
+        return "N"

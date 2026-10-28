@@ -14,4 +14,4 @@ class Bishop(Piece):
         ])
 
     def __str__(self):
-        return "B" + str(self.color.value)
+        return "B"

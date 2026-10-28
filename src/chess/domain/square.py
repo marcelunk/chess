@@ -24,6 +24,3 @@ class Square:
     @property
     def is_outside_board(self) -> bool:
         return not self.is_inside_board
-
-    def __str__(self):
-        return f"{chr(self.file + ord('a'))}{self.rank + 1}"

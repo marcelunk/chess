@@ -18,4 +18,4 @@ class King(Piece):
         ])
 
     def __str__(self):
-        return "K" + str(self.color.value)
+        return "K"

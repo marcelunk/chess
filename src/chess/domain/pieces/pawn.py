@@ -10,4 +10,4 @@ class Pawn(Piece):
         self.movement_patterns.append(pattern)
 
     def __str__(self):
-        return "P" + str(self.color.value)
+        return "P"
