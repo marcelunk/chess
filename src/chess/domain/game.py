@@ -1,4 +1,5 @@
 from chess.domain.color import Color
+from chess.domain.errors.domain_errors import InvalidMoveError
 from chess.domain.game_state import GameStateFactory
 from chess.domain.moves.move_validator import validate_move
 from chess.domain.rules.checkmate_detector import is_checkmate
@@ -17,7 +18,7 @@ class Game:
     def make_move(self, source_square: Square, target_square: Square):
         valid = validate_move(source_square, target_square, self.current_game_state, self.turn)
         if not valid:
-            raise RuntimeError('Invalid move according to current game state')
+            raise InvalidMoveError('Invalid move in current game state')
 
         # make move
         self.history.append(self.current_game_state)

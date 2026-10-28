@@ -1,17 +1,17 @@
 import pytest
+from chess.application.errors.application_errors import InvalidInputError
 from chess.application.game_service import GameService
 from chess.domain.color import Color
-from chess.domain.square import Square
 
 
 def test_invalid_input():
     game_service = GameService()
     game_service.new_game()
-    with pytest.raises(RuntimeError):
+    with pytest.raises(InvalidInputError):
         game_service.make_move("a1i3")
-    with pytest.raises(RuntimeError):
+    with pytest.raises(InvalidInputError):
         game_service.make_move("a4h9")
-    with pytest.raises(RuntimeError):
+    with pytest.raises(InvalidInputError):
         game_service.make_move("i9b0")
 
 def test_valid_input():

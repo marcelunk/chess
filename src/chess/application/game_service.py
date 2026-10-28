@@ -1,5 +1,6 @@
 import re
 
+from chess.application.errors.application_errors import GameRequiredError, InvalidInputError
 from chess.domain.color import Color
 from chess.domain.game import Game
 from chess.domain.square import Square
@@ -23,11 +24,12 @@ class GameService:
         target = input[2:4]
         game.make_move(Square.from_string(source), Square.from_string(target))
 
-
     def undo(self) -> None:
+        # TODO
         pass
 
     def redo(self) -> None:
+        # TODO
         pass
 
     def turn(self) -> Color:
@@ -36,10 +38,10 @@ class GameService:
 
     def _require_game(self) -> Game:
         if self._game is None:
-            raise RuntimeError('No active game')
+            raise GameRequiredError('No active game')
 
         return self._game
 
     def _validate_input(self, input):
         if self.input_pattern.match(input) is None:
-            raise RuntimeError(f"Invalid input: {input}")
+            raise InvalidInputError(f"Invalid input: {input}")

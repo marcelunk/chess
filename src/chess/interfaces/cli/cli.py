@@ -1,6 +1,7 @@
 import re
 
 from chess.application.game_service import GameService
+from chess.domain.errors.domain_errors import InvalidMoveError
 
 
 class CLI:
@@ -16,10 +17,10 @@ class CLI:
             self._service.print_game_state()
 
             command = input("> ")
-            sanitized = command.lower()
+            sanitized_input = command.lower()
 
-            match = self._legal_move_format.match(sanitized)
-            is_command = sanitized in self._legal_commands
+            match = self._legal_move_format.match(sanitized_input)
+            is_command = sanitized_input in self._legal_commands
             is_move = match is not None
 
             if not is_command and not is_move:
@@ -38,4 +39,7 @@ class CLI:
                     self._service.undo()
 
             if is_move:
-                self._service.make_move(sanitized)
+                try:
+                    self._service.make_move(sanitized_input)
+                except InvalidMoveError as e:
+                    print(f"Invalid move {e.message}")
