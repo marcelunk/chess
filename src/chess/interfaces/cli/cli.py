@@ -42,4 +42,4 @@ class CLI:
                 try:
                     self._service.make_move(sanitized_input)
                 except InvalidMoveError as e:
-                    print(f"Invalid move {e.message}")
+                    print(f"Invalid move {e.move}")

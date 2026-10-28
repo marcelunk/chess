@@ -18,7 +18,7 @@ class Game:
     def make_move(self, source_square: Square, target_square: Square):
         valid = validate_move(source_square, target_square, self.current_game_state, self.turn)
         if not valid:
-            raise InvalidMoveError('Invalid move in current game state')
+            raise InvalidMoveError('Invalid move in current game state', move=str(source_square) + str(target_square))
 
         # make move
         self.history.append(self.current_game_state)
